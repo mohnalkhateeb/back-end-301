@@ -8,9 +8,17 @@ server.use(express.json())
 require('dotenv').config();
 const PORT = process.env.PORT;
 const userModel = require('./module/user')
+const getAllData = require('./module/allData')
+const addColor =require('./module/addColor')
+const deleteColor =require('./module/deleteColor')
+const updateColor =require('./module/updatColor')
 mongoose.connect('mongodb://localhost:27017/colors', { useNewUrlParser: true, useUnifiedTopology: true });
 server.get('/', handelOK)
 server.get('/color',getFavColor)
+server.get('/allcolors',getAllData)
+server.post('/addColor',addColor)
+server.delete('/deleteColor/:colorId',deleteColor)
+server.put('/updateColor/:colorId',updateColor)
 function seedUserCollection() {
     const Razan = new userModel({
         email: 'mhmmd.alkateeb@gmail.com', color: [{
@@ -52,7 +60,6 @@ function getFavColor(req,res)
         else { res.send(colorData[0].color)}
     })
 }
-
 server.listen(PORT, () => {
     console.log(`running on PORT ${PORT}`);
 })
